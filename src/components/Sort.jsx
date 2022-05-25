@@ -1,6 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 
-function Sort () {
+function Sort() {
+    const [sortPopupStatus, setSortPopupStatus] = useState(false);
+    const sortList = ['популярности', 'цене', 'алфавиту'];
+    const [activeSortType, setActiveSortType] = useState(0);
+    const sortName = sortList[activeSortType];
+    const onClickListItem = (id) => {
+        setActiveSortType(id);
+        setSortPopupStatus(false);
+    }
+
     return (
         <div className="sort">
             <div className="sort__label">
@@ -17,15 +26,22 @@ function Sort () {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span>популярности</span>
+                <span onClick={() => setSortPopupStatus(!sortPopupStatus)}>{ sortName }</span>
             </div>
-            <div className="sort__popup">
-                <ul>
-                    <li className="active">популярности</li>
-                    <li>цене</li>
-                    <li>алфавиту</li>
-                </ul>
-            </div>
+            {
+                sortPopupStatus && <div className="sort__popup">
+                    <ul>
+                        {
+                            sortList.map((item, id) => (
+                                <li
+                                    key={id}
+                                    onClick={() => onClickListItem(id)}
+                                    className={activeSortType === id ? 'active' : ''}
+                                >{item}</li>))
+                        }
+                    </ul>
+                </div>
+            }
         </div>
     );
 }
