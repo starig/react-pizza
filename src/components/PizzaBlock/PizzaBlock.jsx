@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-function PizzaBlock({ imageUrl, title, types, sizes, price }) {
+function PizzaBlock({ imageUrl, name, types, sizes, price }) {
     const [activeType, setActiveType] = useState(0);
     const [activeSize, setActiveSize] = useState(0);
     const typeNames = ['тонкое', 'традиционное'];
@@ -13,7 +13,7 @@ function PizzaBlock({ imageUrl, title, types, sizes, price }) {
                 src={imageUrl}
                 alt="Pizza"
             />
-            <h4 className="pizza-block__title">{title}</h4>
+            <h4 className="pizza-block__title">{name}</h4>
             <div className="pizza-block__selector">
                 <ul>
                     {
