@@ -1,12 +1,22 @@
 import React, {useState} from "react";
+import descImg from './../assets/img/desc.png';
+import ascImg from './../assets/img/asc.png';
 
-function Sort() {
+
+function Sort({ activeSortType, onChangeSort }) {
     const [sortPopupStatus, setSortPopupStatus] = useState(false);
-    const sortList = ['популярности', 'цене', 'алфавиту'];
-    const [activeSortType, setActiveSortType] = useState(0);
-    const sortName = sortList[activeSortType];
+
+    const sortList = [
+        {name: 'популярности', sortProperty: 'rating', img: descImg},
+        {name: 'популярности', sortProperty: '-rating', img: ascImg},
+        {name: 'цене', sortProperty: 'price', img: descImg},
+        {name: 'цене', sortProperty: '-price', img: ascImg},
+        {name: 'алфавиту', sortProperty: 'title', img: descImg},
+        {name: 'алфавиту', sortProperty: '-title', img: ascImg},
+    ];
+
     const onClickListItem = (id) => {
-        setActiveSortType(id);
+        onChangeSort(id);
         setSortPopupStatus(false);
     }
 
@@ -26,18 +36,18 @@ function Sort() {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setSortPopupStatus(!sortPopupStatus)}>{ sortName }</span>
+                <span onClick={() => setSortPopupStatus(!sortPopupStatus)}>{ activeSortType.name } </span>
             </div>
             {
                 sortPopupStatus && <div className="sort__popup">
                     <ul>
                         {
-                            sortList.map((item, id) => (
+                            sortList.map((obj, id) => (
                                 <li
                                     key={id}
-                                    onClick={() => onClickListItem(id)}
-                                    className={activeSortType === id ? 'active' : ''}
-                                >{item}</li>))
+                                    onClick={() => onClickListItem(obj)}
+                                    className={activeSortType.sortProperty === obj.sortProperty ? 'active' : ''}
+                                >{obj.name} <img src={obj.img} className="sort__icon" alt={'sortType'}/> </li>))
                         }
                     </ul>
                 </div>

@@ -30,10 +30,10 @@
     border-radius: 10px;
     overflow: hidden;
     padding: 10px 0;
-    width: 160px;
 
     ul {
       overflow: hidden;
+
       li {
         padding: 12px 20px;
         cursor: pointer;
@@ -49,5 +49,10 @@
         }
       }
     }
+  }
+
+  &__icon {
+    width: 12px;
+    height: 12px;
   }
 }
