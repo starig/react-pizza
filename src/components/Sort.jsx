@@ -1,9 +1,14 @@
 import React, {useState} from "react";
 import descImg from './../assets/img/desc.png';
 import ascImg from './../assets/img/asc.png';
+import {useDispatch, useSelector} from "react-redux";
+import {setSort} from "../redux/slices/filterSlice";
 
 
-function Sort({ activeSortType, onChangeSort }) {
+function Sort() {
+    const dispatch = useDispatch();
+    const sort = useSelector(state => state.filter.sort)
+
     const [sortPopupStatus, setSortPopupStatus] = useState(false);
 
     const sortList = [
@@ -15,8 +20,8 @@ function Sort({ activeSortType, onChangeSort }) {
         {name: 'алфавиту', sortProperty: '-title', img: ascImg},
     ];
 
-    const onClickListItem = (id) => {
-        onChangeSort(id);
+    const onClickListItem = (obj) => {
+        dispatch(setSort(obj));
         setSortPopupStatus(false);
     }
 
@@ -36,7 +41,7 @@ function Sort({ activeSortType, onChangeSort }) {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setSortPopupStatus(!sortPopupStatus)}>{ activeSortType.name } </span>
+                <span onClick={() => setSortPopupStatus(!sortPopupStatus)}>{ sort.name } </span>
             </div>
             {
                 sortPopupStatus && <div className="sort__popup">
@@ -46,7 +51,7 @@ function Sort({ activeSortType, onChangeSort }) {
                                 <li
                                     key={id}
                                     onClick={() => onClickListItem(obj)}
-                                    className={activeSortType.sortProperty === obj.sortProperty ? 'active' : ''}
+                                    className={sort.sortProperty === obj.sortProperty ? 'active' : ''}
                                 >{obj.name} <img src={obj.img} className="sort__icon" alt={'sortType'}/> </li>))
                         }
                     </ul>

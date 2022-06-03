@@ -5,22 +5,28 @@ import PizzaBlockSkeleton from "../components/PizzaBlock/PizzaBlockSkeleton";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Pagination from "../components/Pagination/Pagination";
 import {SearchContext} from "../App";
+import {useDispatch, useSelector} from "react-redux";
+import {setCategoryId} from "../redux/slices/filterSlice";
 
 const Home = () => {
+    const dispatch = useDispatch();
+    const {categoryId, sort} = useSelector(state => state.filter);
+    const activeSortType = sort.sortProperty;
+
+    const onClickCategory = (id) => {
+        dispatch(setCategoryId(id))
+    };
+
     const [pizzas, setPizzas] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [categoryId, setCategoryId] = useState(0);
-    const [activeSortType, setActiveSortType] = useState({
-        name: 'популярности',
-        sortProperty: 'rating',
-    });
     const [currentPage, setCurrentPage] = useState(1);
+    const [currentCategory, setCurrentCategory] = useState('Все');
     const {searchValue} = useContext(SearchContext);
 
     useEffect(() => {
         setIsLoading(true);
-        const order = activeSortType.sortProperty.includes('-') ? 'asc' : 'desc';
-        const sortBy = activeSortType.sortProperty.replace('-', '');
+        const order = activeSortType.includes('-') ? 'asc' : 'desc';
+        const sortBy = activeSortType.replace('-', '');
         const category = categoryId > 0 ? `category=${categoryId}` : ``;
         const search = searchValue ? `&search=${searchValue}` : ``;
 
@@ -44,10 +50,11 @@ const Home = () => {
     return (
         <div className="container">
             <div className={`content__top`}>
-                <Categories activeCategory={categoryId} onClickCategory={(id) => setCategoryId(id)}/>
-                <Sort activeSortType={activeSortType} onChangeSort={(id) => setActiveSortType(id)}/>
+                <Categories activeCategory={categoryId} setCurrentCategory={(name) => setCurrentCategory(name)}
+                            onClickCategory={onClickCategory}/>
+                <Sort />
             </div>
-            <h2 className="content__title">Все пиццы</h2>
+            <h2 className="content__title">{currentCategory} пиццы</h2>
             <div className="content__items">
                 {
                     isLoading ? skeletons : items
