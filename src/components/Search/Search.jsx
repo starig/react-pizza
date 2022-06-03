@@ -1,9 +1,30 @@
-import React, {useContext} from 'react';
+import React, {useCallback, useContext, useRef, useState} from 'react';
 import styles from './Search.module.scss';
 import {SearchContext} from "../../App";
+import debounce from 'lodash.debounce';
 
 const Search = () => {
-    const {searchValue, setSearchValue} = useContext(SearchContext);
+    const [value, setValue] = useState('');
+    const {setSearchValue} = useContext(SearchContext);
+    const inputRef = useRef();
+    const onClickCross = () => {
+        setSearchValue('');
+        setValue('');
+        inputRef.current.focus();
+    }
+
+    const updateSearchValue = useCallback(
+        debounce((str) => {
+            console.log(str);
+            setSearchValue(str);
+        }, 350),
+        [],
+    )
+
+    const onChangeInput = event => {
+        updateSearchValue(event.target.value);
+        setValue(event.target.value);
+    }
 
     return (
         <div className={styles.root}>
@@ -17,11 +38,12 @@ const Search = () => {
                     <rect className={styles.cls1}/>
                 </g>
             </svg>
-            <input value={searchValue}
-                   onChange={(event) => setSearchValue(event.target.value)}
+            <input ref={inputRef}
+                   value={value}
+                   onChange={onChangeInput}
                    className={styles.input}
                    placeholder={'Поиск пиццы...'}/>
-            {searchValue && <svg className={styles.closeIcon} onClick={() => setSearchValue('')}
+            {value && <svg className={styles.closeIcon} onClick={onClickCross}
                                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                 <title/>
                 <g id="cross">
