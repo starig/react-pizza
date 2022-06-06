@@ -4,6 +4,14 @@ import ascImg from './../assets/img/asc.png';
 import {useDispatch, useSelector} from "react-redux";
 import {setSort} from "../redux/slices/filterSlice";
 
+export const sortList = [
+    {name: 'популярности', sortProperty: 'rating', img: descImg},
+    {name: 'популярности', sortProperty: '-rating', img: ascImg},
+    {name: 'цене', sortProperty: 'price', img: descImg},
+    {name: 'цене', sortProperty: '-price', img: ascImg},
+    {name: 'алфавиту', sortProperty: 'title', img: descImg},
+    {name: 'алфавиту', sortProperty: '-title', img: ascImg},
+];
 
 function Sort() {
     const dispatch = useDispatch();
@@ -11,14 +19,6 @@ function Sort() {
 
     const [sortPopupStatus, setSortPopupStatus] = useState(false);
 
-    const sortList = [
-        {name: 'популярности', sortProperty: 'rating', img: descImg},
-        {name: 'популярности', sortProperty: '-rating', img: ascImg},
-        {name: 'цене', sortProperty: 'price', img: descImg},
-        {name: 'цене', sortProperty: '-price', img: ascImg},
-        {name: 'алфавиту', sortProperty: 'title', img: descImg},
-        {name: 'алфавиту', sortProperty: '-title', img: ascImg},
-    ];
 
     const onClickListItem = (obj) => {
         dispatch(setSort(obj));
@@ -41,7 +41,7 @@ function Sort() {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setSortPopupStatus(!sortPopupStatus)}>{ sort.name } </span>
+                <span onClick={() => setSortPopupStatus(!sortPopupStatus)}>{sort.name} </span>
             </div>
             {
                 sortPopupStatus && <div className="sort__popup">
@@ -52,7 +52,7 @@ function Sort() {
                                     key={id}
                                     onClick={() => onClickListItem(obj)}
                                     className={sort.sortProperty === obj.sortProperty ? 'active' : ''}
-                                >{obj.name} <img src={obj.img} className="sort__icon" alt={'sortType'}/> </li>))
+                                >{obj.name} <img src={obj.img} className="sort__icon" alt={'sortType'}/></li>))
                         }
                     </ul>
                 </div>
@@ -60,5 +60,7 @@ function Sort() {
         </div>
     );
 }
+
+
 
 export default Sort;
