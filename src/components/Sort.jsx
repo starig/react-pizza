@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import descImg from './../assets/img/desc.png';
 import ascImg from './../assets/img/asc.png';
 import {useDispatch, useSelector} from "react-redux";
@@ -16,6 +16,7 @@ export const sortList = [
 function Sort() {
     const dispatch = useDispatch();
     const sort = useSelector(state => state.filter.sort)
+    const sortRef = useRef()
 
     const [sortPopupStatus, setSortPopupStatus] = useState(false);
 
@@ -25,8 +26,21 @@ function Sort() {
         setSortPopupStatus(false);
     }
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (!event.path.includes(sortRef.current)) {
+                setSortPopupStatus(false);
+                console.log('handle');
+            }
+        }
+
+        document.body.addEventListener('click', handleClickOutside);
+
+        return () => document.body.removeEventListener('click', handleClickOutside);
+    }, [])
+
     return (
-        <div className="sort">
+        <div ref={sortRef} className="sort">
             <div className="sort__label">
                 <svg
                     width="10"
