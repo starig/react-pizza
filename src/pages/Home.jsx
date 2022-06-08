@@ -82,7 +82,7 @@ const Home = () => {
     }, [categoryId, activeSortType, searchValue, currentPage]);
 
 
-    const pizzas = items.map(pizza => <PizzaBlock key={pizza.id} {...pizza}/>);
+    const pizzas = items.map(pizza =>  <PizzaBlock key={pizza.id} {...pizza}/>);
 
     const skeletons = [...new Array(10)].map((item, id) => <PizzaBlockSkeleton key={id}/>);
 
