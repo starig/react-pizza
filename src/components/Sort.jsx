@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import descImg from './../assets/img/desc.png';
 import ascImg from './../assets/img/asc.png';
 import {useDispatch, useSelector} from "react-redux";
-import {setSort} from "../redux/slices/filterSlice";
+import {selectSort, setSort} from "../redux/slices/filterSlice";
 
 export const sortList = [
     {name: 'популярности', sortProperty: 'rating', img: descImg},
@@ -15,7 +15,7 @@ export const sortList = [
 
 function Sort() {
     const dispatch = useDispatch();
-    const sort = useSelector(state => state.filter.sort)
+    const sort = useSelector(selectSort);
     const sortRef = useRef()
 
     const [sortPopupStatus, setSortPopupStatus] = useState(false);
