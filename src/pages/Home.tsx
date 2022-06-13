@@ -92,7 +92,9 @@ const Home: React.FC = () => {
     return (
         <div className="container">
             <div className={`content__top`}>
-                <Categories activeCategory={categoryId} setCurrentCategory={(name) => setCurrentCategory(name)}
+                <Categories activeCategory={categoryId}
+                            getCategories={() => {}}
+                            setCurrentCategory={(name) => setCurrentCategory(name)}
                             onClickCategory={onClickCategory}/>
                 <Sort/>
             </div>

@@ -10,6 +10,10 @@ type SortItem = {
     img: string;
 };
 
+type PopupClick = MouseEvent & {
+    path: Node[];
+}
+
 export const sortList: SortItem[] = [
     {name: 'популярности', sortProperty: 'rating', img: descImg},
     {name: 'популярности', sortProperty: '-rating', img: ascImg},
@@ -33,8 +37,10 @@ function Sort() {
     }
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (!event.path.includes(sortRef.current)) {
+        const handleClickOutside = (event: MouseEvent ) => {
+            const _event = event as PopupClick;
+
+            if (sortRef.current && !_event.path.includes(sortRef.current)) {
                 setSortPopupStatus(false);
                 console.log('handle');
             }

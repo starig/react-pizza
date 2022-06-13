@@ -22,7 +22,7 @@ const Search = () => {
         [],
     )
 
-    const onChangeInput = (event) => {
+    const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateSearchValue(event.target.value);
         setValue(event.target.value);
     }
