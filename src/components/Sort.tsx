@@ -4,7 +4,13 @@ import ascImg from './../assets/img/asc.png';
 import {useDispatch, useSelector} from "react-redux";
 import {selectSort, setSort} from "../redux/slices/filterSlice";
 
-export const sortList = [
+type SortItem = {
+    name: string;
+    sortProperty: string;
+    img: string;
+};
+
+export const sortList: SortItem[] = [
     {name: 'популярности', sortProperty: 'rating', img: descImg},
     {name: 'популярности', sortProperty: '-rating', img: ascImg},
     {name: 'цене', sortProperty: 'price', img: descImg},
@@ -16,12 +22,12 @@ export const sortList = [
 function Sort() {
     const dispatch = useDispatch();
     const sort = useSelector(selectSort);
-    const sortRef = useRef()
+    const sortRef = useRef<HTMLDivElement>(null);
 
     const [sortPopupStatus, setSortPopupStatus] = useState(false);
 
 
-    const onClickListItem = (obj) => {
+    const onClickListItem = (obj: SortItem) => {
         dispatch(setSort(obj));
         setSortPopupStatus(false);
     }
