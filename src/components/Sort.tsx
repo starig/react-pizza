@@ -42,7 +42,6 @@ function SortPopup() {
 
             if (sortRef.current && !_event.path.includes(sortRef.current)) {
                 setSortPopupStatus(false);
-                console.log('handle');
             }
         }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from "react-redux";
 import {addItem, CartItem, minusItem, removeItem} from "../../redux/slices/cartSlice";
 
@@ -21,6 +21,11 @@ const CartItemBlock: React.FC<CartItemProps> =
 
     const onClickMinus = () => {
         dispatch(minusItem(id));
+        if (count === 1 ) {
+            if (window.confirm('Вы действительно хотите удалить пиццу из корзины?')) {
+                dispatch(removeItem(id));
+            }
+        }
     };
 
     const onClickRemove = () => {
@@ -41,7 +46,7 @@ const CartItemBlock: React.FC<CartItemProps> =
                 <p>{type}, {size} см.</p>
             </div>
             <div className="cart__item-count">
-                <div onClick={onClickMinus} className="button button--outline button--circle cart__item-count-minus">
+                <button onClick={onClickMinus} className="button button--outline button--circle cart__item-count-minus">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -52,7 +57,7 @@ const CartItemBlock: React.FC<CartItemProps> =
                             fill="#EB5A1E"></path>
                     </svg>
 
-                </div>
+                </button>
                 <b>{count}</b>
                 <div onClick={onClickPlus} className="button button--outline button--circle cart__item-count-plus">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
