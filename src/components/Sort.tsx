@@ -2,11 +2,11 @@ import React, {useEffect, useRef, useState} from "react";
 import descImg from './../assets/img/desc.png';
 import ascImg from './../assets/img/asc.png';
 import {useDispatch, useSelector} from "react-redux";
-import {selectSort, setSort} from "../redux/slices/filterSlice";
+import {selectSort, setSort, SortPropertyEnum} from "../redux/slices/filterSlice";
 
 type SortItem = {
     name: string;
-    sortProperty: string;
+    sortProperty: SortPropertyEnum;
     img: string;
 };
 
@@ -15,15 +15,15 @@ type PopupClick = MouseEvent & {
 }
 
 export const sortList: SortItem[] = [
-    {name: 'популярности', sortProperty: 'rating', img: descImg},
-    {name: 'популярности', sortProperty: '-rating', img: ascImg},
-    {name: 'цене', sortProperty: 'price', img: descImg},
-    {name: 'цене', sortProperty: '-price', img: ascImg},
-    {name: 'алфавиту', sortProperty: 'title', img: descImg},
-    {name: 'алфавиту', sortProperty: '-title', img: ascImg},
+    {name: 'популярности', sortProperty: SortPropertyEnum.RATING_DESC, img: descImg},
+    {name: 'популярности', sortProperty: SortPropertyEnum.RATING_ASC, img: ascImg},
+    {name: 'цене', sortProperty: SortPropertyEnum.PRICE_DESC, img: descImg},
+    {name: 'цене', sortProperty: SortPropertyEnum.PRICE_ASC, img: ascImg},
+    {name: 'алфавиту', sortProperty: SortPropertyEnum.NAME_DESC, img: descImg},
+    {name: 'алфавиту', sortProperty: SortPropertyEnum.NAME_ASC, img: ascImg},
 ];
 
-function Sort() {
+function SortPopup() {
     const dispatch = useDispatch();
     const sort = useSelector(selectSort);
     const sortRef = useRef<HTMLDivElement>(null);
@@ -89,4 +89,4 @@ function Sort() {
 
 
 
-export default Sort;
+export default SortPopup;
