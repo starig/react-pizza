@@ -1,16 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Categories from "../components/Categories";
-import Sort, {sortList} from "../components/Sort";
+import Sort from "../components/Sort";
 import PizzaBlockSkeleton from "../components/PizzaBlock/PizzaBlockSkeleton";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Pagination from "../components/Pagination/Pagination";
 import {useSelector} from "react-redux";
-import {selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
-import qs from 'qs';
+import {selectFilter, setCategoryId, setCurrentPage} from "../redux/slices/filterSlice";
 import {useNavigate} from 'react-router-dom';
-import {fetchPizzas, SearchPizzaParams, selectPizza} from "../redux/slices/pizzasSlice";
+import {fetchPizzas, selectPizza} from "../redux/slices/pizzasSlice";
 import NotFoundBlock from "../components/NotFoundBlock/NotFoundBlock";
 import {useAppDispatch} from "../redux/store";
+import { useWhyDidYouUpdate } from 'ahooks';
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
@@ -18,13 +18,14 @@ const Home: React.FC = () => {
     const isSearch = useRef(false);
     const isMounted = useRef(false);
 
+
     const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
     const { items, status } = useSelector(selectPizza);
     const activeSortType = sort.sortProperty;
 
-    const onClickCategory = (id: number) => {
+    const onClickCategory = useCallback((id: number) => {
         dispatch(setCategoryId(id))
-    };
+    }, []);
 
     const onChangePage = (pageNum: number) => {
         dispatch(setCurrentPage(pageNum));
@@ -50,39 +51,6 @@ const Home: React.FC = () => {
 
     }
 
-/*    useEffect(() => {
-        if (isMounted.current) {
-            const queryString = qs.stringify({
-                sortProperty: activeSortType,
-                categoryId,
-                currentPage
-            });
-            navigate(`?${queryString}`);
-        }
-        if (!window.location.search) {
-            dispatch(fetchPizzas({} as SearchPizzaParams));
-        }
-        isMounted.current = true;
-    }, [categoryId, activeSortType, currentPage])
-
-    useEffect(() => {
-        if (window.location.search) {
-            const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
-            const sort = sortList.find(obj => obj.sortProperty === params.sortBy);
-
-            dispatch(
-                setFilters({
-                    ...params,
-                    sort: sort || sortList[0],
-                    categoryId: Number(params.category),
-                    currentPage: Number(params.currentPage),
-                    searchValue: params.search,
-                })
-            );
-            isSearch.current = true;
-        }
-    }, []);*/
-
     useEffect(() => {
         getPizzas();
         window.scrollTo(0, 0);
@@ -101,7 +69,7 @@ const Home: React.FC = () => {
                             getCategories={() => {}}
                             setCurrentCategory={(name) => setCurrentCategory(name)}
                             onClickCategory={onClickCategory}/>
-                <Sort/>
+                <Sort sort={sort}/>
             </div>
             <h2 className="content__title">{currentCategory} пиццы</h2>
             {

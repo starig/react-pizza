@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from "../store";
+import CartItem from "../../components/CartItem/CartItem";
 
 export type CartItem = {
     id: string;
@@ -33,8 +34,10 @@ const cartSlice = createSlice({
                 state.items.push({
                     ...action.payload,
                     count: 1,
-                })
+                });
+                localStorage.setItem('test', 'value');
             }
+
 
             state.totalPrice = state.items.reduce((sum, obj) => {
                 return obj.price * obj.count + sum;

@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useDispatch} from "react-redux";
 import {addItem, CartItem, minusItem, removeItem} from "../../redux/slices/cartSlice";
+import clsx from "clsx";
 
 type CartItemProps = {
     id: string;
@@ -21,11 +22,6 @@ const CartItemBlock: React.FC<CartItemProps> =
 
     const onClickMinus = () => {
         dispatch(minusItem(id));
-        if (count === 1 ) {
-            if (window.confirm('Вы действительно хотите удалить пиццу из корзины?')) {
-                dispatch(removeItem(id));
-            }
-        }
     };
 
     const onClickRemove = () => {
@@ -46,7 +42,8 @@ const CartItemBlock: React.FC<CartItemProps> =
                 <p>{type}, {size} см.</p>
             </div>
             <div className="cart__item-count">
-                <button onClick={onClickMinus} className="button button--outline button--circle cart__item-count-minus">
+                <button onClick={onClickMinus} disabled={count === 1} className={clsx("button button--outline button--circle cart__item-count-minus",
+                    {'cart__item-count-minus--disabled': count === 1})}>
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path
