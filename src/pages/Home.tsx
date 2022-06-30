@@ -5,12 +5,13 @@ import PizzaBlockSkeleton from "../components/PizzaBlock/PizzaBlockSkeleton";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Pagination from "../components/Pagination/Pagination";
 import {useSelector} from "react-redux";
-import {selectFilter, setCategoryId, setCurrentPage} from "../redux/slices/filterSlice";
 import {useNavigate} from 'react-router-dom';
-import {fetchPizzas, selectPizza} from "../redux/slices/pizzasSlice";
+import {fetchPizzas,} from "../redux/slices/pizza/slice";
 import NotFoundBlock from "../components/NotFoundBlock/NotFoundBlock";
 import {useAppDispatch} from "../redux/store";
-import { useWhyDidYouUpdate } from 'ahooks';
+import {selectFilter} from "../redux/slices/filter/selectors";
+import {setCategoryId, setCurrentPage} from "../redux/slices/filter/slice";
+import {selectPizza} from "../redux/slices/pizza/selectors";
 
 const Home: React.FC = () => {
     const navigate = useNavigate();

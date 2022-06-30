@@ -2,7 +2,9 @@ import React, {memo, useEffect, useRef, useState} from "react";
 import descImg from './../assets/img/desc.png';
 import ascImg from './../assets/img/asc.png';
 import {useDispatch, useSelector} from "react-redux";
-import {selectSort, setSort, Sort, SortPropertyEnum} from "../redux/slices/filterSlice";
+import {Sort, SortPropertyEnum} from "../redux/slices/filter/types";
+import {setSort} from "../redux/slices/filter/slice";
+
 
 type SortItem = {
     name: string;
